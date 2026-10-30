@@ -16,7 +16,7 @@
 - mem0 以 docker compose 自托管，工程目录 `~/mem0/server`；API 8888、dashboard 3000、pgvector 8432
 - 记忆抽取模型为 `zai-org/GLM-5.3-Flash`，嵌入模型为 `BAAI/bge-m3`（1024 维）
 - 三个容器均已设置 `restart: unless-stopped`，`MEM0_TELEMETRY` 已置为 false
-- 记忆资产的导出与回写脚本位于 `C:\Users\23981\Desktop\AI文档\HermesMemory\tools`
+- 记忆资产的导出与回写脚本位于 `C:\Users\23981\Desktop\AI文档\Hermes Memories\tools`
 
 ## 工作偏好
 
