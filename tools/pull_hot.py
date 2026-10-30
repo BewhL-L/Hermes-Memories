@@ -28,7 +28,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 HOT_DIR = ROOT / "hot"
-LOG_FILE = Path.home() / "AppData" / "Local" / "HermesMemory" / "snapshot.log"
+# 日志刻意放在仓库之外，避免日志本身污染提交历史；可用环境变量覆盖。
+LOG_DIR = Path(os.environ.get("HERMES_MEMORY_LOG_DIR", r"C:\Users\23981\Desktop\AI文档\Hermes日志"))
+LOG_FILE = LOG_DIR / "snapshot.log"
 
 # Hermes 可能跑在 WSL 里（常见），也可能有 Windows 原生安装；按顺序找第一个存在的。
 HOT_CANDIDATES = [
