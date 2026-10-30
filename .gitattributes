@@ -1,0 +1,5 @@
+# 统一用 LF：这些文件会同时被 Windows 与 WSL 读取
+* text=auto eol=lf
+*.py text eol=lf
+*.jsonl text eol=lf
+*.md text eol=lf
