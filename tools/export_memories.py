@@ -124,7 +124,7 @@ def write_markdown(records: list[dict], path: Path, user_id: str) -> None:
     lines = [
         f"# 记忆全量导出（{user_id}）",
         "",
-        f"- 导出时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        "- 导出时间：见本文件对应的 git 提交记录（不写时间戳，避免无意义的每日 diff）",
         f"- 条数：{len(records)}",
         "- 说明：本文件由 export_memories.py 生成，重新导出会覆盖；",
         "  需要长期维护的结论请写入手工维护的 MEMORY.md。",
