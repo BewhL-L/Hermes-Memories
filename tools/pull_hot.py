@@ -101,10 +101,14 @@ def snapshot(hot_dir: Path) -> list[str]:
 
 def run_export() -> None:
     script = ROOT / "tools" / "export_memories.py"
+    # 子进程固定 UTF-8：计划任务环境下控制台编码是 cp936，中文输出会静默失败。
+    env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
     proc = subprocess.run([sys.executable, str(script), "--rolling"], capture_output=True, text=True,
-                          encoding="utf-8")
+                          encoding="utf-8", errors="replace", env=env)
     detail = (proc.stdout or "").strip() or (proc.stderr or "").strip()
-    log(f"导出 mem0：{detail.splitlines()[-1] if detail else '无输出'}")
+    lines = [line.strip() for line in detail.splitlines() if line.strip()]
+    summary = next((line for line in lines if line.startswith("导出")), lines[-1] if lines else "")
+    log(f"导出 mem0：{summary or f'退出码 {proc.returncode}，无输出'}")
 
 
 def commit_and_push(git: str, push: bool) -> None:
