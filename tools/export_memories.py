@@ -149,6 +149,8 @@ def main() -> int:
     parser.add_argument("--user", default=os.environ.get("MEM0_USER_ID", DEFAULT_USER))
     parser.add_argument("--out", default=str(Path(__file__).resolve().parent.parent / "exports"))
     parser.add_argument("--env", default="", help="显式指定 Hermes 的 .env 路径")
+    parser.add_argument("--rolling", action="store_true",
+                        help="写固定文件名 memories.jsonl（历史交给 git），而非带时间戳的新文件")
     args = parser.parse_args()
 
     env_file = resolve_env_file(args.env)
@@ -169,7 +171,7 @@ def main() -> int:
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    jsonl_path = out_dir / f"memories-{stamp}.jsonl"
+    jsonl_path = out_dir / ("memories.jsonl" if args.rolling else f"memories-{stamp}.jsonl")
     md_path = out_dir / "MEMORY.full.md"
 
     write_jsonl(records, jsonl_path)
