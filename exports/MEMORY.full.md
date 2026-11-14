@@ -1,9 +1,26 @@
 # 记忆全量导出（hermes-local-user）
 
 - 导出时间：见本文件对应的 git 提交记录（不写时间戳，避免无意义的每日 diff）
-- 条数：68
+- 条数：82
 - 说明：本文件由 export_memories.py 生成，重新导出会覆盖；
   需要长期维护的结论请写入手工维护的 MEMORY.md。
+
+## 2026-11-14（14 条）
+
+- User's agent-cockpit working conventions (stated 2026-11-14): task sheets live in G:\我的云端硬盘\多Agent协作\_tasks\hermes\ (e.g., TASK-003-主进程scanner.md); WSL cannot see the G: drive, so reading task sheets and writing handover logs must go through powershell.exe; code is at C:\Users\23981\projects\agent-cockpit, edited in WSL via /mnt/c/..., with git and npm run through powershell.exe; no new directory structures may be created.
+- TASK-003 (agent-cockpit main-process scanner) was completed on November 14, 2026 and pushed to the hermes/scanner branch — commit 3a97cef, based on origin/main 35ae200, with main left untouched; the handover log was written to _handover/hermes/2026-11-14-主进程scanner.md with SHA256 verified identical to the source, and the task sheet status was changed to 已完成 (completed).
+- TASK-003 implementation: added a 243-line src/main/scanner.js that scans _tasks/_handover/_signals/_archive and outputs {root, scannedAt, agents[5], tasks[], handovers[], signals[≤50]} with no caching; registered ipcMain.handle('cockpit:getState', () => scanState()) in src/main/index.js (+4 lines); src/preload/index.js contextBridge now exposes only window.cockpit.getState, keeping window.electron (App.vue's Send IPC uses it) and removing the unreferenced empty window.api.
+- TASK-003 kept a minimal change footprint: temporary debug prints added to renderer/src/main.js were deleted after verification (git diff empty), and App.vue, components/, and assets/ were left completely untouched — no readFile/createTask or page code was written.
+- TASK-003 runtime verification on 2026-11-14: npm run dev (after clearing ELECTRON_RUN_AS_NODE) launched the Electron window and the console getState JSON matched the folders item-by-item — 5 agent slots correct, 3 task sheets (TASK-001/002 archived as completed with prefixes stripped, TASK-003 pending), 5 handovers, and 4 signals sorted by absolute time descending with the hermes +08:00 entry last.
+- TASK-003 test and build checks all passed on 2026-11-14: 11 synthetic fixture boundary tests PASS (missing status → pending, archive prefix stripping, in-progress detection, 60→50 truncation, bad JSON skipped, README not treated as a task sheet; test scripts and fixtures deleted from %TEMP% afterward), npm run build exit 0, npx eslint on src/main and src/preload 0 errors, and prettier (--end-of-line auto) passed.
+- TASK-003 left one decision for the user or Jolly: what to do about the http.proxy=http://127.0.0.… entry in ~/.gitconfig (the proxy address is truncated in the completion report).
+- On November 14, 2026, User reported with a screenshot (clip_20261114_204529_1.png) that the 多Agent协作平台 project did not appear in the Hermes desktop app sidebar
+- Assistant diagnosed the cause on November 14, 2026: the user's installed Hermes desktop app was an October 14, 2026 build that lacked the projects feature entirely — its app.asar contained no projects-related code — so the 多Agent协作平台 project created in the database could never display
+- Assistant rebuilt the Hermes desktop app from current source on November 14, 2026 using `hermes desktop --build-only --force-build` (exit 0), confirmed the new package includes the projects code (/dist/assets/projects-*.js), then closed the old instance and launched the new build (window PID 52533, backend 45515) with all session data preserved
+- After the rebuild, the desktop backend's projects.tree returns two nodes — Home and 多Agent协作平台 (0 sessions, path /mnt/c/Users/23981/Desktop/AI文档/多Agent协作项目/多Agent协作平台) — confirming the project exists
+- In the Hermes desktop app, projects only appear in the sidebar when grouping is set to 项目: click the filter icon to the right of the 会话 title → 分组 → 项目. The default grouping is 日期 (by date), which hides the project section by design; sessions created inside the 多Agent协作平台 project get their cwd set to the project folder
+- The November 14, 2026 rebuild upgraded the Hermes desktop app to the current version, so besides the projects feature the user will also see other new features and wording changes
+- Assistant did not modify the agent-cockpit code repository (still at C:\Users\23981\projects\agent-cockpit) and created no folders; offered to move the cockpit repo into the 多Agent协作平台 folder or add it as the project's second folder if the user wants
 
 ## 2026-10-29（64 条）
 

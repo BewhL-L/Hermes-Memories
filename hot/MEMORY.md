@@ -10,10 +10,12 @@
 §
 环境：Hermes 跑在 WSL2 Ubuntu（用户 luo，networkingMode=mirrored），配置目录 ~/.hermes，图形界面经 WSLg；主模型为 SiliconFlow 的 deepseek-ai/DeepSeek-V4.1-Flash，base_url https://api.siliconflow.cn/v1
 §
-网络：Clash Verge 的 TUN 关闭、mode=rule、混用端口 7897；shell 已导出 http(s)_proxy 且 no_proxy 含 localhost；Windows 系统代理同为 127.0.0.1:7897，Docker Desktop 走 system 代理即可正常 pull
+网络：Clash Verge 的 TUN 关闭、mode=rule、mixed 7897 只监听 IPv6 ::，127.0.0.1 连不上；Windows 侧走 http://localhost:7897 可用；git 需临时加 -c http.sslBackend=openssl -c http.proxy=http://localhost:7897 才能 fetch/push（schannel 握手失败），不要改 ~/.gitconfig；Docker Desktop 走 system 代理
 §
 记忆分层：热记忆写本文件（每轮注入），温/冷记忆走自托管 mem0（~/mem0/server，API 8888、dashboard 3000、pgvector 8432），抽取模型 zai-org/GLM-5.3-Flash，嵌入 BAAI/bge-m3（1024 维，换嵌入需重建全部向量）
 §
 记忆资产：C:\Users\23981\Desktop\AI文档\Hermes Memories 为源文件目录（git 仓库，远端 github.com/BewhL-L/Hermes-Memories），MEMORY.md 是唯一事实源；tools/export_memories.py 导出 JSONL 与可读版，tools/sync_memory.py 以 infer=false 原文回写 mem0
 §
 会话延续：命令行 hermes -c 接续最近一次会话；TUI 内 /resume 列出最近 10 条按序号选取；同一 session 不能同时被桌面端与终端持有
+§
+Hermes 桌面端（WSL 里跑 Linux 版，经 start-hermes-desktop.vbs 启动，home=/home/luo/.hermes）已有项目「多Agent协作平台」：slug multi-agent-platform、id p_48ae6680，主文件夹 /mnt/c/Users/23981/Desktop/AI文档/多Agent协作项目/多Agent协作平台（Windows 路径同目录），项目数据在 ~/.hermes/projects.db，用 hermes project 命令管理
