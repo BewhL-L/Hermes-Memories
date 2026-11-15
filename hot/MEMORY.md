@@ -10,7 +10,7 @@
 §
 环境：Hermes 跑在 WSL2 Ubuntu（用户 luo，networkingMode=mirrored），配置目录 ~/.hermes，图形界面经 WSLg；主模型为 SiliconFlow 的 deepseek-ai/DeepSeek-V4.1-Flash，base_url https://api.siliconflow.cn/v1
 §
-网络：Clash Verge 的 TUN 关闭、mode=rule、mixed 7897 只监听 IPv6 ::，127.0.0.1 连不上；Windows 侧走 http://localhost:7897 可用；git 需临时加 -c http.sslBackend=openssl -c http.proxy=http://localhost:7897 才能 fetch/push（schannel 握手失败），不要改 ~/.gitconfig；Docker Desktop 走 system 代理
+网络（2026-11-14 复测修正）：Clash Verge mixed 监听显示在 ::，但为双栈，127.0.0.1 和 localhost:7897 都能连（curl 走 127.0.0.1:7897 返回 200，Windows 与 WSL 均通）；git 用 127.0.0.1:7897 + schannel + 默认 HTTP/2 也能 ls-remote（1–2s），openssl 后端与 localhost 写法都不是必须。早前出现的 schannel 握手失败/连接重置是代理侧临时状态，重试即可；WSL 里 ::1 是 WSL 自己的回环，不能用来找 Windows 上的 Clash。no_proxy 含 127.0.0.1 属正常，不要动。
 §
 记忆分层：热记忆写本文件（每轮注入），温/冷记忆走自托管 mem0（~/mem0/server，API 8888、dashboard 3000、pgvector 8432），抽取模型 zai-org/GLM-5.3-Flash，嵌入 BAAI/bge-m3（1024 维，换嵌入需重建全部向量）
 §
