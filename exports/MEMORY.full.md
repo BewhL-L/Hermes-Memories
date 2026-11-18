@@ -1,9 +1,21 @@
 # 记忆全量导出（hermes-local-user）
 
 - 导出时间：见本文件对应的 git 提交记录（不写时间戳，避免无意义的每日 diff）
-- 条数：115
+- 条数：124
 - 说明：本文件由 export_memories.py 生成，重新导出会覆盖；
   需要长期维护的结论请写入手工维护的 MEMORY.md。
+
+## 2026-11-16（9 条）
+
+- On November 16, 2026, User assigned TASK-052 (Hermes标记加task_id): fetch the sheet TASK-052-Hermes标记加task_id.md from the inbox G:\我的云端硬盘\多Agent协作\_tasks\hermes\ and do the work per the sheet, under the constraints of not touching the repository and not changing the hook registration or the relay chain; after completion write a handover log, set the sheet status to 待验收 (pending review), and never change it to 已完成 (completed) on its own.
+- TASK-052 was completed on November 16, 2026: the task sheet status was set to 待验收 with 更新时间 synced to 2026-11-16T23:19:02+08:00, and the handover log was written to G:\我的云端硬盘\多Agent协作\_handover\hermes\2026-11-16-Hermes标记加task_id.md (5796 bytes, SHA256 verified identical to source).
+- For TASK-052, the Hermes session-end hook script /home/luo/.hermes/agent-hooks/write-done-marker.py was modified from 3453 B to 6077 B (122 → 166 lines) with file permissions unchanged; a byte-identical pre-change backup was kept at write-done-marker.py.TASK-052.bak (3453 B, sha256 472e2f86…15c823).
+- TASK-052's changes to write-done-marker.py were limited to two places: ① added INBOX_DIR_WIN, TASK_ID_RE, and the function inbox_in_progress_task_id(); ② in main(), after marker construction and before the staging write, task_id is written into the done-marker only when non-empty.
+- Per TASK-052's constraints the following were left untouched: config.yaml's hooks.on_session_end (still command: ~/.hermes/agent-hooks/write-done-marker.py with timeout: 10), the staging section, the powershell copy-to-G: relay section, the repository, git, and the other agent seats.
+- TASK-052's task_id lookup reads only direct TASK-*.md files under G:\…\_tasks\hermes\ via powershell.exe, extracts each sheet's 状态 line with the regex (?m)^\s*[-*]?\s*状态\s*[：:]\s*(.*)$, and returns results to Python via ConvertTo-Json -Compress after setting [Console]::OutputEncoding=UTF8 (Python parses as utf-8).
+- TASK-052's write rule: task_id is written into the done-marker only when exactly one task sheet's stripped status strictly equals 「进行中」 (in progress) and its filename matches ^TASK-\d+; with 0 matches, ≥2 matches, or a non-conforming filename, no task_id is written — the script never guesses.
+- During TASK-052 the inbox scan timeout was set to 5 seconds (not 15) because the hook's overall limit is only 10 seconds and the scan must finish before the marker is written to disk; if the G: drive hangs, the design prefers omitting task_id over failing to write the marker.
+- TASK-052 was tested entirely in %TEMP%\task052-test with zero writes to the real inbox and real _signals/: Group 1 (exactly one in-progress sheet — TASK-900 进行中 plus TASK-901 待领取) exited 0 with a complete marker containing task_id: "TASK-900" and 1 successful copy; Group 2 (zero in-progress sheets) exited 0 with the marker still written but without task_id.
 
 ## 2026-11-15（16 条）
 
