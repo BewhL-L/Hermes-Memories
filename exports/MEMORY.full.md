@@ -1,9 +1,23 @@
 # 记忆全量导出（hermes-local-user）
 
 - 导出时间：见本文件对应的 git 提交记录（不写时间戳，避免无意义的每日 diff）
-- 条数：124
+- 条数：135
 - 说明：本文件由 export_memories.py 生成，重新导出会覆盖；
   需要长期维护的结论请写入手工维护的 MEMORY.md。
+
+## 2026-11-19（11 条）
+
+- On November 19, 2026, User assigned TASK-111 (强调色文字态4.6重算): the task sheet at G:\我的云端硬盘\多Agent协作\_tasks\hermes\TASK-111-强调色文字态4.6重算.md instructs recalculating the 14 accent-color text-state cells to a ≥4.6 contrast target, writing the conclusions into a new document, and not modifying the appendix main text.
+- TASK-111 was completed on November 19, 2026: all 14 accent-color text-state cells were recalculated to ≥4.6 with the lowest at 4.605, the conclusions were written to a new document 星晷强调色文字态4.6重算 in G:\我的云端硬盘\多Agent协作\共享资料\, and the appendix main text was left with zero changes.
+- TASK-111 recalculation results for the Latte theme (6 cells, old→new hex with worst-case contrast ratio): A #754300→#734200 4.605 (borderline), B #2146AD→#2044AB 4.664, C #005A46→#005743 4.725, D #604C00→#5F4B00 4.633, E #832D6C→#812B6B 4.636, F #005764→#005461 4.732.
+- TASK-111 recalculation results for the Nord theme (6 cells, old→new hex with worst-case contrast ratio): A #FFD173→#FFD476 4.629, B #AADEFF→#ACE0FF 4.607 (borderline), C #6DECD3→#6FEED5 4.609 (borderline), D #EBD861→#EEDB64 4.635, E #FFC4FF→#FFC7FF 4.609 (borderline), F #61EBFA→#63EDFC 4.666.
+- TASK-111 recalculation results for Solarized Light (2 cells, old→new hex with worst-case contrast ratio): C #006652→#006551 4.615 and F #006372→#006271 4.607 (borderline).
+- TASK-111 flagged 5 borderline cells at 4.605–4.609 — Latte A, Nord B/C/E, and Solarized Light F — whose margin above 4.6 is under one 0.005 lightness step, so they pass but with nearly zero headroom.
+- TASK-111 found that after merging, the lowest value in the whole table is the untouched Solarized Light · D 青柠 (lime) at 4.602 (margin 0.002), which was outside the task's named scope and left alone; truly leaving buffer would require raising the target to ≥4.7, which would move another 8–10 cells while staying within ΔL ±0.02.
+- TASK-111 changed only lightness: |ΔL| ≤0.010, while ΔC ≤0.006 and Δh ≤1.7° are incidental shifts from sRGB gamut clipping after darkening/lightening rather than intentional hue changes; solid-state, solid-label ratios, usability conclusions, and hue distances were all left unchanged.
+- For TASK-111, the /tmp/task109 script had been cleaned by WSL, so /tmp/task111/recalc.py was rebuilt per appendix §3.8 as a self-contained script with no third-party libraries that parses color values from the appendix tables instead of hardcoding them; its regex was made compatible with the '（原 …）' notation introduced by the TASK-088 merge after the first run missed 3 lines, which was then fixed.
+- TASK-111 followed the §3.8 recalculation rules: preserve hue and chroma, move lightness in 0.005 steps away from bg-4 until the same hex's minimum contrast ratio against bg-1..4 reaches ≥4.6, with judgment done on raw unrounded values.
+- TASK-111 verification: recalculating the worst-case values of the left-column hex for all 36 cells matched the printed table values with error ≤0.011, confirming §4.2's reading rule holds; 6 cells (Latte A/B, Nord A/B, Solarized C/F) were independently hand-verified with all layer ratios matching the report exactly.
 
 ## 2026-11-16（9 条）
 
